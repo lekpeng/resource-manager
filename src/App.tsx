@@ -1,22 +1,13 @@
 import { useState, useEffect } from "react";
 import csvFilesToJson from "../data/read";
+import DragDropCalendar from "./DragDropCalendar";
 
 const FILENAMES = ["colab.csv", "itcd.csv", "xcolab.csv", "xitcd.csv"];
 const FILEPATHS = FILENAMES.map((filename) => "../data/" + filename);
-type Booking = {
-  uuid: string;
-  status: string;
-  date: string;
-  start_time: string;
-  end_time: string;
-  user_uuid: string;
-  name: string;
-  code: string;
-  type: string;
-};
+import { Booking } from "./Types";
 
 function App() {
-  const [data, setData] = useState<Booking[] | []>([]);
+  const [data, setData] = useState<Booking[]>([]);
 
   useEffect(() => {
     const handleLoadData = async () => {
@@ -29,9 +20,10 @@ function App() {
 
   return (
     <div>
-      {data?.map((item, index) => (
+      {/* {data?.map((item, index) => (
         <div key={index}>{JSON.stringify(item)}</div>
-      ))}
+      ))} */}
+      <DragDropCalendar data={data} />
     </div>
   );
 }
