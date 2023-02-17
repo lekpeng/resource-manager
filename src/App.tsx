@@ -5,6 +5,7 @@ import DragDropCalendar from "./DragDropCalendar";
 const FILENAMES = ["colab.csv", "itcd.csv", "xcolab.csv", "xitcd.csv"];
 const FILEPATHS = FILENAMES.map((filename) => "../data/" + filename);
 import { Booking } from "./Types";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [data, setData] = useState<Booking[]>([]);
@@ -19,9 +20,9 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <>
       <DragDropCalendar data={data} />
-    </div>
+    </>
   );
 }
 

@@ -1,4 +1,6 @@
 import { Booking } from "./Types";
+import Filter from "./Filter";
+
 import { useState, useEffect } from "react";
 import { Calendar, dateFnsLocalizer, Event, EventPropGetter } from "react-big-calendar";
 import withDragAndDrop, { withDragAndDropProps } from "react-big-calendar/lib/addons/dragAndDrop";
@@ -12,6 +14,7 @@ import startOfHour from "date-fns/startOfHour";
 
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { Col, Container, Row } from "react-bootstrap";
 
 type DragDropCalendarProps = {
   data: Booking[];
@@ -40,14 +43,14 @@ const DragDropCalendar = ({ data }: DragDropCalendarProps) => {
     }
     switch (event.resource.type) {
       case "DISCUSSION ROOM":
-        backgroundColor = "green";
+        backgroundColor = "mediumseagreen";
         break;
       case "MEETING ROOM":
-        backgroundColor = "blue";
+        backgroundColor = "royalblue";
         break;
 
       case "CONFERENCE ROOM":
-        backgroundColor = "red";
+        backgroundColor = "coral";
         break;
 
       default:
@@ -80,26 +83,34 @@ const DragDropCalendar = ({ data }: DragDropCalendarProps) => {
   };
 
   return (
-    <DnDCalendar
-      defaultView="week"
-      events={events}
-      eventPropGetter={eventStyleGetter}
-      localizer={localizer}
-      onEventDrop={onEventDrop}
-      onEventResize={onEventResize}
-      resizable
-      style={{ height: "100vh" }}
-    />
+    // <Container style={{ height: "100vh" }}>
+    <Container>
+      <Row>
+        <Col style={{ display: "flex", alignItems: "center", height: "3em" }}>
+          <Filter />
+        </Col>
+        <Col style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "3em" }}>
+          <h3>Resource Manager </h3>
+        </Col>
+        <Col></Col>
+      </Row>
+      <DnDCalendar
+        defaultView="month"
+        events={events}
+        eventPropGetter={eventStyleGetter}
+        localizer={localizer}
+        onEventDrop={onEventDrop}
+        onEventResize={onEventResize}
+        resizable
+        style={{ height: "calc(100vh - 3em)" }}
+      />
+    </Container>
   );
 };
 
 const locales = {
   "en-US": enUS,
 };
-const endOfHour = (date: Date): Date => addHours(startOfHour(date), 1);
-const now = new Date();
-const start = endOfHour(now);
-const end = addHours(start, 2);
 const localizer = dateFnsLocalizer({
   format,
   parse,
