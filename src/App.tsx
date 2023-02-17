@@ -20,9 +20,6 @@ function App() {
 
   return (
     <div>
-      {/* {data?.map((item, index) => (
-        <div key={index}>{JSON.stringify(item)}</div>
-      ))} */}
       <DragDropCalendar data={data} />
     </div>
   );

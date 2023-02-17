@@ -1,7 +1,6 @@
 import { Booking } from "./Types";
-
-import { useState } from "react";
-import { Calendar, dateFnsLocalizer, Event } from "react-big-calendar";
+import { useState, useEffect } from "react";
+import { Calendar, dateFnsLocalizer, Event, EventPropGetter } from "react-big-calendar";
 import withDragAndDrop, { withDragAndDropProps } from "react-big-calendar/lib/addons/dragAndDrop";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -19,14 +18,50 @@ type DragDropCalendarProps = {
 };
 
 const DragDropCalendar = ({ data }: DragDropCalendarProps) => {
-  const allEvents = data.map((booking) => {
-    return {
-      title: booking.name,
-      start: new Date(`${booking.date}T${booking.start_time}`),
-      end: new Date(`${booking.date}T${booking.end_time}`),
+  const [events, setEvents] = useState<Event[]>([]);
+  useEffect(() => {
+    const allEvents = data.map((booking) => {
+      return {
+        title: booking.name,
+        start: new Date(`${booking.date}T${booking.start_time}`),
+        end: new Date(`${booking.date}T${booking.end_time}`),
+        resource: { type: booking.type, status: booking.status },
+      };
+    });
+
+    setEvents(allEvents);
+  }, [data]);
+
+  const eventStyleGetter: EventPropGetter<Event> = (event, start, end, isSelected) => {
+    let backgroundColor;
+    let textDecoration = "none";
+    if (event.resource.status === "CANCELLED") {
+      textDecoration = "line-through";
+    }
+    switch (event.resource.type) {
+      case "DISCUSSION ROOM":
+        backgroundColor = "green";
+        break;
+      case "MEETING ROOM":
+        backgroundColor = "blue";
+        break;
+
+      case "CONFERENCE ROOM":
+        backgroundColor = "red";
+        break;
+
+      default:
+        backgroundColor = "black";
+    }
+
+    const style = {
+      backgroundColor,
+      textDecoration,
     };
-  });
-  const [events, setEvents] = useState<Event[]>(allEvents);
+    return {
+      style,
+    };
+  };
 
   const onEventResize: withDragAndDropProps["onEventResize"] = (data) => {
     const { start, end } = data;
@@ -48,6 +83,7 @@ const DragDropCalendar = ({ data }: DragDropCalendarProps) => {
     <DnDCalendar
       defaultView="week"
       events={events}
+      eventPropGetter={eventStyleGetter}
       localizer={localizer}
       onEventDrop={onEventDrop}
       onEventResize={onEventResize}
