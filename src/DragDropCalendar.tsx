@@ -83,13 +83,12 @@ const DragDropCalendar = ({ data }: DragDropCalendarProps) => {
   };
 
   return (
-    // <Container style={{ height: "100vh" }}>
-    <Container>
-      <Row>
-        <Col style={{ display: "flex", alignItems: "center", height: "3em" }}>
+    <>
+      <Row style={{ height: "6em" }}>
+        <Col style={{ display: "flex", alignItems: "center" }}>
           <Filter />
         </Col>
-        <Col style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "3em" }}>
+        <Col style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <h3>Resource Manager </h3>
         </Col>
         <Col></Col>
@@ -102,9 +101,9 @@ const DragDropCalendar = ({ data }: DragDropCalendarProps) => {
         onEventDrop={onEventDrop}
         onEventResize={onEventResize}
         resizable
-        style={{ height: "calc(100vh - 3em)" }}
+        style={{ height: "calc(100vh - 6em)" }}
       />
-    </Container>
+    </>
   );
 };
 
