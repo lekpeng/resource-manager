@@ -1,5 +1,5 @@
 import Filter from "../components/Filter";
-import { bookingToEventConverter } from "../utils/bookingToEventConverter";
+import { csvToCalendarBookingConverter } from "../utils/csvToCalendarBooking";
 
 import { useState, useEffect } from "react";
 import useBookings from "../hooks/useBookings";
@@ -17,15 +17,7 @@ import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const DragDropCalendar = () => {
-  const { bookings } = useBookings();
-  const [events, setEvents] = useState<Event[]>([]);
-
-  useEffect(() => {
-    if (bookings.length) {
-      setEvents(bookings.map(bookingToEventConverter));
-      console.log("set all events");
-    }
-  }, [bookings]);
+  const [filteredBookings, setFilteredBookings] = useState<Event[]>([]);
 
   const eventStyleGetter: EventPropGetter<Event> = (event) => {
     let backgroundColor;
@@ -61,7 +53,7 @@ const DragDropCalendar = () => {
   const onEventResize: withDragAndDropProps["onEventResize"] = (data) => {
     const { start, end } = data;
 
-    setEvents((currentEvents) => {
+    setFilteredBookings((currentEvents) => {
       const firstEvent = {
         start: new Date(start),
         end: new Date(end),
@@ -78,7 +70,7 @@ const DragDropCalendar = () => {
     <>
       <Row style={{ height: "8em" }}>
         <Col>
-          <Filter events={events} setEvents={setEvents} />
+          <Filter setFilteredBookings={setFilteredBookings} />
         </Col>
         <Col className="m-3" md="auto" style={{ display: "flex", justifyContent: "center" }}>
           <h3>Resource Manager </h3>
@@ -87,7 +79,7 @@ const DragDropCalendar = () => {
       </Row>
       <DnDCalendar
         defaultView="month"
-        events={events}
+        events={filteredBookings}
         eventPropGetter={eventStyleGetter}
         localizer={localizer}
         onEventDrop={onEventDrop}

@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import { IBookingsContext, BookingsContext } from "../contexts/BookingsContext";
 import csvFilesToJson from "../../data/read";
+import { csvToCalendarBookingConverter } from "../utils/csvToCalendarBooking";
 
 const useBookings = () => {
   const { bookings, setBookings } = useContext<IBookingsContext>(BookingsContext);
@@ -12,7 +13,7 @@ const useBookings = () => {
         const FILEPATHS = FILENAMES.map((filename) => "../../data/" + filename);
 
         const json = await csvFilesToJson(FILEPATHS);
-        setBookings(json);
+        setBookings(json.map(csvToCalendarBookingConverter));
 
         console.log("PERFORMED LOAD DATA");
       };

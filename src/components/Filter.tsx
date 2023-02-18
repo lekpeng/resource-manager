@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Select, SelectOption } from "./Select";
 import { Event } from "react-big-calendar";
+import useBookings from "../hooks/useBookings";
 
 const bookingStatusOptions = [
   { label: "Confirmed", value: "CONFIRMED" },
@@ -15,19 +16,27 @@ const bookingRoomOptions = [
 ];
 
 type FilterProps = {
-  events: Event[] | [];
-  setEvents: (events: Event[] | []) => void;
+  setFilteredBookings: (filteredBookings: Event[] | []) => void;
 };
 
-function Filter({ events, setEvents }: FilterProps) {
+function Filter({ setFilteredBookings }: FilterProps) {
   const [statuses, setStatuses] = useState<SelectOption[]>([bookingStatusOptions[0]]);
   const [rooms, setRooms] = useState<SelectOption[]>(bookingRoomOptions);
+  const { bookings } = useBookings();
 
   useEffect(() => {
-    console.log("running use effect");
-    console.log(events);
-    setEvents(events.filter((event) => rooms.includes(event.resource.type) && statuses.includes(event.resource.status)));
-  }, [statuses, rooms]);
+    if (bookings.length) {
+      const roomsValues = rooms.map((room) => room.value);
+      const statusesValues = statuses.map((status) => status.value);
+
+      setFilteredBookings(
+        bookings.filter(
+          (booking) => roomsValues.includes(booking.resource.type) && statusesValues.includes(booking.resource.status)
+        )
+      );
+      console.log("set filtered bookings");
+    }
+  }, [bookings, statuses, rooms]);
 
   return (
     <>

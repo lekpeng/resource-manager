@@ -1,4 +1,4 @@
-type Booking = {
+type csvBooking = {
   uuid: string;
   status: string;
   date: string;
@@ -10,4 +10,4 @@ type Booking = {
   type: string;
 };
 
-export type { Booking };
+export type { csvBooking };
