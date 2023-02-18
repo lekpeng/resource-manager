@@ -1,41 +1,31 @@
-import { Booking } from "./Types";
 import Filter from "./Filter";
+import { bookingToEventConverter } from "./utils/bookingToEventConverter";
 
 import { useState, useEffect } from "react";
-import { Calendar, dateFnsLocalizer, Event, EventPropGetter } from "react-big-calendar";
-import withDragAndDrop, { withDragAndDropProps } from "react-big-calendar/lib/addons/dragAndDrop";
+import useBookings from "./hooks/useBookings";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import enUS from "date-fns/locale/en-US";
-import addHours from "date-fns/addHours";
-import startOfHour from "date-fns/startOfHour";
+
+import { Col, Row } from "react-bootstrap";
+import { Calendar, dateFnsLocalizer, Event, EventPropGetter } from "react-big-calendar";
+import withDragAndDrop, { withDragAndDropProps } from "react-big-calendar/lib/addons/dragAndDrop";
 
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Col, Container, Row } from "react-bootstrap";
 
-type DragDropCalendarProps = {
-  data: Booking[];
-};
-
-const DragDropCalendar = ({ data }: DragDropCalendarProps) => {
+const DragDropCalendar = () => {
+  const { bookings } = useBookings();
   const [events, setEvents] = useState<Event[]>([]);
+
   useEffect(() => {
-    const allEvents = data.map((booking) => {
-      return {
-        title: booking.name,
-        start: new Date(`${booking.date}T${booking.start_time}`),
-        end: new Date(`${booking.date}T${booking.end_time}`),
-        resource: { type: booking.type, status: booking.status },
-      };
-    });
-
+    const allEvents = bookings.map(bookingToEventConverter);
     setEvents(allEvents);
-  }, [data]);
+  }, []);
 
-  const eventStyleGetter: EventPropGetter<Event> = (event, start, end, isSelected) => {
+  const eventStyleGetter: EventPropGetter<Event> = (event) => {
     let backgroundColor;
     let textDecoration = "none";
     if (event.resource.status === "CANCELLED") {
@@ -86,7 +76,7 @@ const DragDropCalendar = ({ data }: DragDropCalendarProps) => {
     <>
       <Row style={{ height: "6em" }}>
         <Col style={{ display: "flex", alignItems: "center" }}>
-          <Filter />
+          <Filter setEvents={setEvents} />
         </Col>
         <Col style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <h3>Resource Manager </h3>

@@ -1,7 +1,12 @@
-import { Container } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
+import { Event } from "react-big-calendar";
 
-const Filter = () => {
+type FilterProps = {
+  setEvents: (events: Event[] | []) => void;
+};
+
+const Filter = ({ setEvents }: FilterProps) => {
   return (
     <Container>
       <Form style={{ display: "flex" }}>

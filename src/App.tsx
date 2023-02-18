@@ -1,28 +1,21 @@
-import { useState, useEffect } from "react";
-import csvFilesToJson from "../data/read";
+import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import { BookingsContext } from "./contexts/BookingsContext";
 import DragDropCalendar from "./DragDropCalendar";
-
-const FILENAMES = ["colab.csv", "itcd.csv", "xcolab.csv", "xitcd.csv"];
-const FILEPATHS = FILENAMES.map((filename) => "../data/" + filename);
 import { Booking } from "./Types";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  const [data, setData] = useState<Booking[]>([]);
-
-  useEffect(() => {
-    const handleLoadData = async () => {
-      const json = await csvFilesToJson(FILEPATHS);
-      setData(json);
-    };
-
-    handleLoadData();
-  }, []);
+  const [bookings, setBookings] = useState<Booking[]>([]);
 
   return (
-    <>
-      <DragDropCalendar data={data} />
-    </>
+    <div className="App">
+      <BookingsContext.Provider value={{ bookings, setBookings }}>
+        <Routes>
+          <Route path="/" element={<DragDropCalendar />} />
+          <Route path="/:uuid" element={<DragDropCalendar />} />
+        </Routes>
+      </BookingsContext.Provider>
+    </div>
   );
 }
 
