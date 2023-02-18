@@ -21,9 +21,10 @@ const DragDropCalendar = () => {
   const [events, setEvents] = useState<Event[]>([]);
 
   useEffect(() => {
-    const allEvents = bookings.map(bookingToEventConverter);
-    setEvents(allEvents);
-  }, []);
+    if (bookings.length) {
+      setEvents(bookings.map(bookingToEventConverter));
+    }
+  }, [bookings]);
 
   const eventStyleGetter: EventPropGetter<Event> = (event) => {
     let backgroundColor;
