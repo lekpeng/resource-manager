@@ -1,8 +1,8 @@
-import Filter from "./Filter";
-import { bookingToEventConverter } from "./utils/bookingToEventConverter";
+import Filter from "../components/Filter";
+import { bookingToEventConverter } from "../utils/bookingToEventConverter";
 
 import { useState, useEffect } from "react";
-import useBookings from "./hooks/useBookings";
+import useBookings from "../hooks/useBookings";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
@@ -23,6 +23,7 @@ const DragDropCalendar = () => {
   useEffect(() => {
     if (bookings.length) {
       setEvents(bookings.map(bookingToEventConverter));
+      console.log("set all events");
     }
   }, [bookings]);
 
@@ -75,11 +76,11 @@ const DragDropCalendar = () => {
 
   return (
     <>
-      <Row style={{ height: "6em" }}>
-        <Col style={{ display: "flex", alignItems: "center" }}>
-          <Filter setEvents={setEvents} />
+      <Row style={{ height: "8em" }}>
+        <Col>
+          <Filter events={events} setEvents={setEvents} />
         </Col>
-        <Col style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <Col className="m-3" md="auto" style={{ display: "flex", justifyContent: "center" }}>
           <h3>Resource Manager </h3>
         </Col>
         <Col></Col>
@@ -92,7 +93,7 @@ const DragDropCalendar = () => {
         onEventDrop={onEventDrop}
         onEventResize={onEventResize}
         resizable
-        style={{ height: "calc(100vh - 6em)" }}
+        style={{ height: "calc(100vh - 8em)" }}
       />
     </>
   );

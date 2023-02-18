@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { BookingsContext } from "./contexts/BookingsContext";
-import DragDropCalendar from "./DragDropCalendar";
+import DragDropCalendar from "./pages/DragDropCalendar";
 import { Booking } from "./Types";
+
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [bookings, setBookings] = useState<Booking[]>([]);
