@@ -23,94 +23,112 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-const MyToolbar: React.FC<ToolbarProps> = ({ label, onView, onNavigate }) => {
-  const [showCalendar, setShowCalendar] = useState(false);
-  const [calendarView, setCalendarView] = useState<Detail>("year");
+const MyCalendar = () => {
+  const [calendarValue, setCalendarValue] = useState<Date>(new Date());
 
-  const handleToolbarClick = () => {
-    setShowCalendar((prevState) => !prevState);
+  const handleNavigate = (newDate: Date): void => {
+    setCalendarValue(newDate);
   };
 
-  return (
-    <div className="rbc-toolbar">
-      <span className="rbc-btn-group">
-        <button type="button" onClick={() => onNavigate("TODAY")} className="rbc-btn-group btn btn-default">
-          Today
-        </button>
-        <button style={{ margin: 0 }} type="button" onClick={() => onNavigate("PREV")} className="rbc-btn-group btn btn-default">
-          Back
-        </button>
-        <button style={{ margin: 0 }} type="button" onClick={() => onNavigate("NEXT")} className="rbc-btn-group btn btn-default">
-          Next
-        </button>
-      </span>
+  const MyToolbar: React.FC<ToolbarProps> = ({ label, onView, onNavigate }) => {
+    const [showCalendar, setShowCalendar] = useState(false);
+    const [calendarView, setCalendarView] = useState<Detail>("year");
 
-      <span className="rbc-toolbar-label" onClick={() => handleToolbarClick()}>
-        {label}
-      </span>
+    const handleClose = () => setShowCalendar(false);
+    const handleShow = () => setShowCalendar(true);
 
-      <Modal show={showCalendar}>
-        <Modal.Header closeButton>
-          <Modal.Title>Navigate to a date</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Calendar
-            defaultView={calendarView}
-            onChange={(date: Date) => {
-              // this line navigates to the selected date in the big calendar
-              onNavigate("DATE", date);
-              setShowCalendar(false);
+    return (
+      <div className="rbc-toolbar">
+        <span className="rbc-btn-group">
+          <button type="button" onClick={() => onNavigate("TODAY")} className="rbc-btn-group btn btn-default">
+            Today
+          </button>
+          <button
+            style={{ margin: 0 }}
+            type="button"
+            onClick={() => {
+              onNavigate("PREV");
             }}
-          />
-        </Modal.Body>
-      </Modal>
+            className="rbc-btn-group btn btn-default">
+            Back
+          </button>
+          <button
+            style={{ margin: 0 }}
+            type="button"
+            onClick={() => {
+              onNavigate("NEXT");
+            }}
+            className="rbc-btn-group btn btn-default">
+            Next
+          </button>
+        </span>
 
-      <span className="rbc-btn-group">
-        <button
-          type="button"
-          onClick={() => {
-            setCalendarView("year");
-            return onView("month");
-          }}
-          className="rbc-btn-group btn btn-default">
-          Month
-        </button>
-        <button
-          style={{ margin: 0 }}
-          type="button"
-          onClick={() => {
-            setCalendarView("month");
-            return onView("week");
-          }}
-          className="rbc-btn-group btn btn-default">
-          Week
-        </button>
-        <button
-          style={{ margin: 0 }}
-          type="button"
-          onClick={() => {
-            setCalendarView("month");
-            return onView("day");
-          }}
-          className="rbc-btn-group btn btn-default">
-          Day
-        </button>
-        <button
-          style={{ margin: 0 }}
-          type="button"
-          onClick={() => {
-            setCalendarView("month");
-            return onView("agenda");
-          }}
-          className="rbc-btn-group btn btn-default">
-          Agenda
-        </button>
-      </span>
-    </div>
-  );
-};
+        <span className="rbc-toolbar-label" style={{ cursor: "pointer" }} onClick={() => handleShow()}>
+          {label}
+        </span>
 
-const MyCalendar = () => {
+        <Modal show={showCalendar} onHide={() => handleClose()}>
+          <Modal.Header closeButton>
+            <Modal.Title>Navigate to a date</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="d-flex justify-content-center">
+            <Calendar
+              defaultView={calendarView}
+              defaultValue={calendarValue}
+              onChange={(date: Date) => {
+                // this line navigates to the selected date in the big calendar
+                onNavigate("DATE", date);
+                handleClose();
+              }}
+            />
+          </Modal.Body>
+        </Modal>
+
+        <span className="rbc-btn-group">
+          <button
+            type="button"
+            onClick={() => {
+              setCalendarView("year");
+              onView("month");
+            }}
+            className="rbc-btn-group btn btn-default">
+            Month
+          </button>
+          <button
+            style={{ margin: 0 }}
+            type="button"
+            onClick={() => {
+              setCalendarView("month");
+              onView("week");
+            }}
+            className="rbc-btn-group btn btn-default">
+            Week
+          </button>
+          <button
+            style={{ margin: 0 }}
+            type="button"
+            onClick={() => {
+              setCalendarView("month");
+              onView("day");
+            }}
+            className="rbc-btn-group btn btn-default">
+            Day
+          </button>
+          <button
+            style={{ margin: 0 }}
+            type="button"
+            onClick={() => {
+              setCalendarView("month");
+              onView("agenda");
+            }}
+            className="rbc-btn-group btn btn-default">
+            Agenda
+          </button>
+        </span>
+      </div>
+    );
+  };
+
   return (
     <div>
       <BigCalendar
@@ -122,6 +140,7 @@ const MyCalendar = () => {
         components={{
           toolbar: MyToolbar,
         }}
+        onNavigate={handleNavigate}
       />
     </div>
   );
