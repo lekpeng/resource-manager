@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ToolbarProps, dateFnsLocalizer } from "react-big-calendar";
+import { ToolbarProps, dateFnsLocalizer, View } from "react-big-calendar";
 import { Calendar as BigCalendar } from "react-big-calendar";
 import { Calendar, Detail } from "react-calendar";
 
@@ -27,8 +27,13 @@ const MyCalendar = () => {
   const [calendarValue, setCalendarValue] = useState<Date>(new Date());
   const [calendarView, setCalendarView] = useState<Detail>("year");
 
-  const handleNavigate = (newDate: Date): void => {
-    setCalendarValue(newDate);
+  const handleNavigate = (date: Date): void => {
+    setCalendarValue(date);
+  };
+
+  const handleView = (view: View): void => {
+    if (view === "month") setCalendarView("year");
+    else setCalendarView("month");
   };
 
   const MyToolbar: React.FC<ToolbarProps> = ({ label, onView, onNavigate }) => {
@@ -63,11 +68,11 @@ const MyCalendar = () => {
           </button>
         </span>
 
-        <span className="rbc-toolbar-label" style={{ cursor: "pointer" }} onClick={() => handleShow()}>
+        <span className="rbc-toolbar-label" style={{ cursor: "pointer" }} onClick={handleShow}>
           {label}
         </span>
 
-        <Modal show={showCalendar} onHide={() => handleClose()}>
+        <Modal show={showCalendar} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Navigate to a date</Modal.Title>
           </Modal.Header>
@@ -75,7 +80,13 @@ const MyCalendar = () => {
             <Calendar
               defaultView={calendarView}
               defaultValue={calendarValue}
+              onClickMonth={(date: Date) => {
+                if (calendarView === "year") {
+                  onNavigate("DATE", date);
+                }
+              }}
               onChange={(date: Date) => {
+                console.log("CHANGED");
                 // this line navigates to the selected date in the big calendar
                 onNavigate("DATE", date);
                 handleClose();
@@ -85,42 +96,27 @@ const MyCalendar = () => {
         </Modal>
 
         <span className="rbc-btn-group">
-          <button
-            type="button"
-            onClick={() => {
-              setCalendarView("year");
-              onView("month");
-            }}
-            className="rbc-btn-group btn btn-default">
+          <button type="button" onClick={() => onView("month")} className="rbc-btn-group btn btn-default">
             Month
           </button>
           <button
             style={{ margin: 0 }}
             type="button"
-            onClick={() => {
-              setCalendarView("month");
-              onView("week");
-            }}
+            onClick={() => onView("week")}
             className="rbc-btn-group btn btn-default">
             Week
           </button>
           <button
             style={{ margin: 0 }}
             type="button"
-            onClick={() => {
-              setCalendarView("month");
-              onView("day");
-            }}
+            onClick={() => onView("day")}
             className="rbc-btn-group btn btn-default">
             Day
           </button>
           <button
             style={{ margin: 0 }}
             type="button"
-            onClick={() => {
-              setCalendarView("month");
-              onView("agenda");
-            }}
+            onClick={() => onView("agenda")}
             className="rbc-btn-group btn btn-default">
             Agenda
           </button>
@@ -141,6 +137,7 @@ const MyCalendar = () => {
           toolbar: MyToolbar,
         }}
         onNavigate={handleNavigate}
+        onView={handleView}
       />
     </div>
   );
