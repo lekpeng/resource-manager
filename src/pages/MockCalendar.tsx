@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { ToolbarProps, dateFnsLocalizer } from "react-big-calendar";
 import { Calendar as BigCalendar } from "react-big-calendar";
+import { Calendar, Detail } from "react-calendar";
 
-import { Calendar } from "react-calendar";
+import Modal from "react-bootstrap/Modal";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
@@ -24,6 +25,7 @@ const localizer = dateFnsLocalizer({
 
 const MyToolbar: React.FC<ToolbarProps> = ({ label, onView, onNavigate }) => {
   const [showCalendar, setShowCalendar] = useState(false);
+  const [calendarView, setCalendarView] = useState<Detail>("year");
 
   const handleToolbarClick = () => {
     setShowCalendar((prevState) => !prevState);
@@ -46,25 +48,61 @@ const MyToolbar: React.FC<ToolbarProps> = ({ label, onView, onNavigate }) => {
       <span className="rbc-toolbar-label" onClick={() => handleToolbarClick()}>
         {label}
       </span>
-      {showCalendar && (
-        <Calendar
-          onChange={(date: Date) => {
-            onNavigate("DATE", date);
-            setShowCalendar(false);
-          }}
-        />
-      )}
+
+      <Modal show={showCalendar}>
+        <Modal.Header closeButton>
+          <Modal.Title>Navigate to a date</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Calendar
+            defaultView={calendarView}
+            onChange={(date: Date) => {
+              // this line navigates to the selected date in the big calendar
+              onNavigate("DATE", date);
+              setShowCalendar(false);
+            }}
+          />
+        </Modal.Body>
+      </Modal>
+
       <span className="rbc-btn-group">
-        <button type="button" onClick={() => onView("month")} className="rbc-btn-group btn btn-default">
+        <button
+          type="button"
+          onClick={() => {
+            setCalendarView("year");
+            return onView("month");
+          }}
+          className="rbc-btn-group btn btn-default">
           Month
         </button>
-        <button style={{ margin: 0 }} type="button" onClick={() => onView("week")} className="rbc-btn-group btn btn-default">
+        <button
+          style={{ margin: 0 }}
+          type="button"
+          onClick={() => {
+            setCalendarView("month");
+            return onView("week");
+          }}
+          className="rbc-btn-group btn btn-default">
           Week
         </button>
-        <button style={{ margin: 0 }} type="button" onClick={() => onView("day")} className="rbc-btn-group btn btn-default">
+        <button
+          style={{ margin: 0 }}
+          type="button"
+          onClick={() => {
+            setCalendarView("month");
+            return onView("day");
+          }}
+          className="rbc-btn-group btn btn-default">
           Day
         </button>
-        <button style={{ margin: 0 }} type="button" onClick={() => onView("agenda")} className="rbc-btn-group btn btn-default">
+        <button
+          style={{ margin: 0 }}
+          type="button"
+          onClick={() => {
+            setCalendarView("month");
+            return onView("agenda");
+          }}
+          className="rbc-btn-group btn btn-default">
           Agenda
         </button>
       </span>
@@ -73,13 +111,6 @@ const MyToolbar: React.FC<ToolbarProps> = ({ label, onView, onNavigate }) => {
 };
 
 const MyCalendar = () => {
-  const [showCalendar, setShowCalendar] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
-  const handleCalendarClose = () => {
-    setShowCalendar(false);
-  };
-
   return (
     <div>
       <BigCalendar
@@ -92,15 +123,6 @@ const MyCalendar = () => {
           toolbar: MyToolbar,
         }}
       />
-      {showCalendar && (
-        <Calendar
-          onChange={(date: Date) => {
-            setSelectedDate(date);
-            handleCalendarClose();
-          }}
-          value={selectedDate}
-        />
-      )}
     </div>
   );
 };

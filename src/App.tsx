@@ -17,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<DragDropCalendar />} />
           <Route path="/Mock" element={<MockCalendar />} />
+
           <Route path="/:uuid" element={<DragDropCalendar />} />
         </Routes>
       </BookingsContext.Provider>
