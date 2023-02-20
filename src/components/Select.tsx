@@ -20,21 +20,21 @@ export function Select({ value, onChange, options }: SelectProps) {
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  function clearOptions() {
+  const clearOptions = () => {
     onChange([]);
-  }
+  };
 
-  function selectOption(option: SelectOption) {
+  const selectOption = (option: SelectOption) => {
     if (value.includes(option)) {
       onChange(value.filter((o) => o !== option));
     } else {
       onChange([...value, option]);
     }
-  }
+  };
 
-  function isOptionSelected(option: SelectOption) {
+  const isOptionSelected = (option: SelectOption) => {
     return value.includes(option);
-  }
+  };
 
   useEffect(() => {
     if (isOpen) setHighlightedIndex(0);
@@ -89,7 +89,7 @@ export function Select({ value, onChange, options }: SelectProps) {
               e.stopPropagation();
               selectOption(v);
             }}
-            className={styles["option-badge"]}>
+            className={`${styles["option-badge"]} ${styles[v.label]}`}>
             {v.label}
             <span className={styles["remove-btn"]}>&times;</span>
           </button>

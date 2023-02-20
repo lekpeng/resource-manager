@@ -30,11 +30,8 @@ function Filter({ setFilteredBookings }: FilterProps) {
       const statusesValues = statuses.map((status) => status.value);
 
       setFilteredBookings(
-        bookings.filter(
-          (booking) => roomsValues.includes(booking.resource.type) && statusesValues.includes(booking.resource.status)
-        )
+        bookings.filter((booking) => roomsValues.includes(booking.resource.type) && statusesValues.includes(booking.resource.status))
       );
-      console.log("set filtered bookings");
     }
   }, [bookings, statuses, rooms]);
 

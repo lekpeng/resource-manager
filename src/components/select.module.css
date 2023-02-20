@@ -1,6 +1,6 @@
 .container {
   position: relative;
-  width: 80%;
+  width: 24em;
   min-height: 1.5em;
   border: 0.05em solid #777;
   display: flex;
@@ -82,4 +82,40 @@
 .option.highlighted {
   background-color: hsl(200, 100%, 50%);
   color: white;
+}
+
+.option-badge {
+  display: flex;
+  align-items: center;
+  border: 0.05em solid #777;
+  border-radius: 0.25em;
+  padding: 0.15em 0.25em;
+  gap: 0.25em;
+  cursor: pointer;
+  background: none;
+  outline: none;
+  background-color: black;
+  color: white;
+}
+
+.option-badge:hover > .remove-btn,
+.option-badge:focus > .remove-btn {
+  color: hsl(0, 100%, 50%);
+}
+
+.option-badge > .remove-btn {
+  font-size: 1.25em;
+  color: #777;
+}
+
+.Discussion {
+  background-color: mediumseagreen;
+}
+
+.Conference {
+  background-color: coral;
+}
+
+.Meeting {
+  background-color: cornflowerblue;
 }
