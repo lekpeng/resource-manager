@@ -6,11 +6,12 @@ import { format, parse, startOfWeek, getDay } from "date-fns";
 import enUS from "date-fns/locale/en-US";
 
 import { Col, Row, Modal } from "react-bootstrap";
-import { Calendar as BigCalendar, dateFnsLocalizer, Event, EventPropGetter, ToolbarProps, View } from "react-big-calendar";
+import { Calendar as BigCalendar, dateFnsLocalizer, Event, EventPropGetter, ToolbarProps, View, NavigateAction } from "react-big-calendar";
 import { Calendar, Detail } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { capitaliseFirstLetter } from "../utils/converters";
 
 const Home = () => {
   const [filteredBookings, setFilteredBookings] = useState<Event[]>([]);
@@ -33,35 +34,22 @@ const Home = () => {
     const handleClose = () => setShowCalendar(false);
     const handleShow = () => setShowCalendar(true);
 
+    const navigateButtonOptions: NavigateAction[] = ["TODAY", "PREV", "NEXT"];
+    const viewButtonOptions: View[] = ["month", "week", "day", "agenda"];
+
     return (
       <Row className="rbc-toolbar">
         <Col className="rbc-btn-group">
-          <button type="button" onClick={() => onNavigate("TODAY")} className="rbc-btn-group btn btn-default">
-            Today
-          </button>
-          <button
-            style={{ margin: 0 }}
-            type="button"
-            onClick={() => {
-              onNavigate("PREV");
-            }}
-            className="rbc-btn-group btn btn-default">
-            Back
-          </button>
-          <button
-            style={{ margin: 0 }}
-            type="button"
-            onClick={() => {
-              onNavigate("NEXT");
-            }}
-            className="rbc-btn-group btn btn-default">
-            Next
-          </button>
+          {navigateButtonOptions.map((option) => (
+            <button style={{ margin: 0 }} type="button" onClick={() => onNavigate(option)} className="rbc-btn-group btn btn-default">
+              {capitaliseFirstLetter(option)}
+            </button>
+          ))}
         </Col>
 
         <Col></Col>
         <Col className="d-flex justify-content-center">
-          <span className="rbc-toolbar-label" style={{ color: "maroon", cursor: "pointer", fontWeight: "bold" }} onClick={handleShow}>
+          <span className="rbc-toolbar-label" style={{ color: "#ff8c00", cursor: "pointer", fontWeight: "bold" }} onClick={handleShow}>
             {label}
           </span>
 
@@ -87,51 +75,48 @@ const Home = () => {
             </Modal.Body>
           </Modal>
         </Col>
-        <Col>
-          <div style={{ display: "flex" }}>
-            <Switch
-              onChange={() => {
-                if (weekType === "week") {
-                  setWeekType("work_week");
-                  onView("work_week");
-                } else {
-                  console.log("else");
-                  setWeekType("week");
-                  onView("week");
-                }
-              }}
-              checked={weekType === "week"}
-              onColor="#ffdd86"
-              onHandleColor="#e69c26"
-              handleDiameter={30}
-              uncheckedIcon={false}
-              checkedIcon={false}
-              boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-              activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-              height={20}
-              width={48}
-              className="react-switch"
-              id="material-switch"
-            />
-            <p>
-              {weekType === "week" ? "Show" : "Hide"} <span>weekends </span>
-            </p>
-          </div>
+        <Col className="d-flex align-items-center">
+          <Switch
+            onChange={() => {
+              if (weekType === "week") {
+                setWeekType("work_week");
+                onView("work_week");
+              } else {
+                setWeekType("week");
+                onView("week");
+              }
+            }}
+            checked={weekType === "week"}
+            onColor="#ffdd86"
+            onHandleColor="#ff8c00"
+            handleDiameter={30}
+            uncheckedIcon={false}
+            checkedIcon={false}
+            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+            height={20}
+            width={48}
+            className="react-switch"
+            id="material-switch"
+          />
+          <p style={{ margin: "0 0 0 15px" }}>
+            {weekType === "week" ? "Hide" : "Show"} <span>weekends </span>
+          </p>
         </Col>
 
         <Col className="d-flex rbc-btn-group" style={{ justifyContent: "right" }}>
-          <button type="button" onClick={() => onView("month")} className="rbc-btn-group btn btn-default">
-            Month
-          </button>
-          <button style={{ margin: 0 }} type="button" onClick={() => onView(weekType)} className="rbc-btn-group btn btn-default">
-            Week
-          </button>
-          <button style={{ margin: 0 }} type="button" onClick={() => onView("day")} className="rbc-btn-group btn btn-default">
-            Day
-          </button>
-          <button style={{ margin: 0 }} type="button" onClick={() => onView("agenda")} className="rbc-btn-group btn btn-default">
-            Agenda
-          </button>
+          {viewButtonOptions.map((option) => (
+            <button
+              type="button"
+              style={{ margin: 0 }}
+              onClick={() => {
+                if (option === "week") onView(weekType);
+                else onView(option);
+              }}
+              className="rbc-btn-group btn btn-default">
+              {capitaliseFirstLetter(option)}
+            </button>
+          ))}
         </Col>
       </Row>
     );

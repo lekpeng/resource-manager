@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { IBookingsContext, BookingsContext } from "../contexts/BookingsContext";
 import csvFilesToJson from "../../data/read";
-import { csvToCalendarBookingConverter } from "../utils/csvToCalendarBooking";
+import { csvToCalendarBookingConverter } from "../utils/converters";
 
 const useBookings = () => {
   const { bookings, setBookings } = useContext<IBookingsContext>(BookingsContext);

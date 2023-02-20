@@ -15,3 +15,10 @@ export const csvToCalendarBookingConverter = (csvBooking: csvBooking): Event => 
     },
   };
 };
+
+export const capitaliseFirstLetter = (str: String): String => {
+  return str
+    .split(" ")
+    .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+};
