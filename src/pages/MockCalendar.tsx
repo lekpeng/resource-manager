@@ -25,6 +25,7 @@ const localizer = dateFnsLocalizer({
 
 const MyCalendar = () => {
   const [calendarValue, setCalendarValue] = useState<Date>(new Date());
+  const [calendarView, setCalendarView] = useState<Detail>("year");
 
   const handleNavigate = (newDate: Date): void => {
     setCalendarValue(newDate);
@@ -32,7 +33,6 @@ const MyCalendar = () => {
 
   const MyToolbar: React.FC<ToolbarProps> = ({ label, onView, onNavigate }) => {
     const [showCalendar, setShowCalendar] = useState(false);
-    const [calendarView, setCalendarView] = useState<Detail>("year");
 
     const handleClose = () => setShowCalendar(false);
     const handleShow = () => setShowCalendar(true);
