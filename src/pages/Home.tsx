@@ -11,7 +11,7 @@ import { Col, Row, Modal } from "react-bootstrap";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import styles from "./Home.module.css";
 
-const Home = () => {
+function Home() {
   const [filteredBookings, setFilteredBookings] = useState<Event[]>([]);
   const [calendarValue, setCalendarValue] = useState<Date>(new Date());
   const [calendarView, setCalendarView] = useState<Detail>("year");
@@ -50,8 +50,7 @@ const Home = () => {
           ))}
         </Col>
 
-        <Col></Col>
-        <Col className="d-flex justify-content-center">
+        <Col md="auto" className="d-flex justify-content-center">
           <span className={`rbc-toolbar-label ${styles["date-label"]}`} onClick={handleShow}>
             {label}
           </span>
@@ -78,49 +77,54 @@ const Home = () => {
             </Modal.Body>
           </Modal>
         </Col>
-        <Col className="d-flex align-items-center">
-          <Switch
-            onChange={() => {
-              if (weekType === "week") {
-                setWeekType("work_week");
-                onView("work_week");
-              } else {
-                setWeekType("week");
-                onView("week");
-              }
-            }}
-            checked={weekType === "week"}
-            onColor="#ffdd86"
-            onHandleColor="#ff8c00"
-            handleDiameter={30}
-            uncheckedIcon={false}
-            checkedIcon={false}
-            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-            height={20}
-            width={48}
-            className="react-switch"
-            id="material-switch"
-          />
-          <p className={`${styles["week-type"]}`}>
-            {weekType === "week" ? "Hide" : "Show"} <span>weekends </span>
-          </p>
-        </Col>
 
-        <Col className="rbc-btn-group">
-          {viewButtonOptions.map((option) => (
-            <button
-              type="button"
-              key={option}
-              className="rbc-btn-group btn btn-default"
-              onClick={() => {
-                if (option === "week") onView(weekType);
-                else onView(option);
-              }}
-              style={{ margin: 0 }}>
-              {capitaliseFirstLetter(option)}
-            </button>
-          ))}
+        <Col>
+          <Row>
+            <Col className="d-flex justify-content-end align-items-center">
+              <Switch
+                onChange={() => {
+                  if (weekType === "week") {
+                    setWeekType("work_week");
+                    onView("work_week");
+                  } else {
+                    setWeekType("week");
+                    onView("week");
+                  }
+                }}
+                checked={weekType === "week"}
+                onColor="#ffdd86"
+                onHandleColor="#ff8c00"
+                handleDiameter={30}
+                uncheckedIcon={false}
+                checkedIcon={false}
+                boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                height={20}
+                width={48}
+                className="react-switch"
+                id="material-switch"
+              />
+              <p className={`${styles["week-type"]}`}>
+                {weekType === "week" ? "Hide" : "Show"} <span>weekends </span>
+              </p>
+            </Col>
+
+            <Col className="rbc-btn-group">
+              {viewButtonOptions.map((option) => (
+                <button
+                  type="button"
+                  key={option}
+                  className="rbc-btn-group btn btn-default"
+                  onClick={() => {
+                    if (option === "week") onView(weekType);
+                    else onView(option);
+                  }}
+                  style={{ margin: 0 }}>
+                  {capitaliseFirstLetter(option)}
+                </button>
+              ))}
+            </Col>
+          </Row>
         </Col>
       </Row>
     );
@@ -192,7 +196,7 @@ const Home = () => {
       />
     </>
   );
-};
+}
 
 const locales = {
   "en-US": enUS,
