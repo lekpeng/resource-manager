@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { IBookingsContext, BookingsContext } from "../contexts/BookingsContext";
-import csvFilesToJson from "../../data/read";
+import csvFilesToJson from "../../public/read";
 import { csvToCalendarBookingConverter } from "../utils/converters";
 
 const useBookings = () => {

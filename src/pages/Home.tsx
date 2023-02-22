@@ -35,6 +35,45 @@ function Home() {
     }
   };
 
+  const slotGroupStyleGetter = () => {
+    const style = {
+      minHeight: "100px",
+    };
+    return {
+      style,
+    };
+  };
+  const eventStyleGetter: EventPropGetter<Event> = (event) => {
+    let backgroundColor;
+    let textDecoration = "none";
+    if (event.resource.status === "CANCELLED") {
+      textDecoration = "line-through";
+    }
+    switch (event.resource.type) {
+      case "DISCUSSION ROOM":
+        backgroundColor = "mediumseagreen";
+        break;
+      case "MEETING ROOM":
+        backgroundColor = "cornflowerblue";
+        break;
+
+      case "CONFERENCE ROOM":
+        backgroundColor = "coral";
+        break;
+
+      default:
+        backgroundColor = "black";
+    }
+
+    const style = {
+      backgroundColor,
+      textDecoration,
+      fontSize: "0.8em",
+    };
+    return {
+      style,
+    };
+  };
   const CustomToolbar = ({ label, onView, onNavigate }: ToolbarProps) => {
     const [showCalendar, setShowCalendar] = useState(false);
 
@@ -143,45 +182,6 @@ function Home() {
     );
   };
 
-  const slotGroupStyleGetter = () => {
-    const style = {
-      minHeight: "100px",
-    };
-    return {
-      style,
-    };
-  };
-  const eventStyleGetter: EventPropGetter<Event> = (event) => {
-    let backgroundColor;
-    let textDecoration = "none";
-    if (event.resource.status === "CANCELLED") {
-      textDecoration = "line-through";
-    }
-    switch (event.resource.type) {
-      case "DISCUSSION ROOM":
-        backgroundColor = "mediumseagreen";
-        break;
-      case "MEETING ROOM":
-        backgroundColor = "cornflowerblue";
-        break;
-
-      case "CONFERENCE ROOM":
-        backgroundColor = "coral";
-        break;
-
-      default:
-        backgroundColor = "black";
-    }
-
-    const style = {
-      backgroundColor,
-      textDecoration,
-      fontSize: "0.8em",
-    };
-    return {
-      style,
-    };
-  };
   return (
     <>
       <Row className="mt-3" style={{ height: "10em" }}>
