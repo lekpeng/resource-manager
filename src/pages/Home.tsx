@@ -16,14 +16,23 @@ function Home() {
   const [calendarValue, setCalendarValue] = useState<Date>(new Date());
   const [calendarView, setCalendarView] = useState<Detail>("year");
   const [weekType, setWeekType] = useState<View>("work_week");
+  const [showSwitch, setShowSwitch] = useState(false);
 
   const handleNavigate = (date: Date): void => {
     setCalendarValue(date);
   };
 
   const handleView = (view: View): void => {
-    if (view === "month") setCalendarView("year");
-    else setCalendarView("month");
+    if (view === "month") {
+      setCalendarView("year");
+      setShowSwitch(false);
+    } else if (view === "week" || view === "work_week") {
+      setCalendarView("month");
+      setShowSwitch(true);
+    } else {
+      setCalendarView("month");
+      setShowSwitch(false);
+    }
   };
 
   const CustomToolbar = ({ label, onView, onNavigate }: ToolbarProps) => {
@@ -81,32 +90,36 @@ function Home() {
         <Col>
           <Row>
             <Col className="d-flex justify-content-end align-items-center">
-              <Switch
-                onChange={() => {
-                  if (weekType === "week") {
-                    setWeekType("work_week");
-                    onView("work_week");
-                  } else {
-                    setWeekType("week");
-                    onView("week");
-                  }
-                }}
-                checked={weekType === "week"}
-                onColor="#ffdd86"
-                onHandleColor="#ff8c00"
-                handleDiameter={30}
-                uncheckedIcon={false}
-                checkedIcon={false}
-                boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                height={20}
-                width={48}
-                className="react-switch"
-                id="material-switch"
-              />
-              <p className={`${styles["week-type"]}`}>
-                {weekType === "week" ? "Hide" : "Show"} <span>weekends </span>
-              </p>
+              {showSwitch && (
+                <>
+                  <Switch
+                    onChange={() => {
+                      if (weekType === "week") {
+                        setWeekType("work_week");
+                        onView("work_week");
+                      } else {
+                        setWeekType("week");
+                        onView("week");
+                      }
+                    }}
+                    checked={weekType === "week"}
+                    onColor="#ffdd86"
+                    onHandleColor="#ff8c00"
+                    handleDiameter={30}
+                    uncheckedIcon={false}
+                    checkedIcon={false}
+                    boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                    activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                    height={20}
+                    width={48}
+                    className="react-switch"
+                    id="material-switch"
+                  />
+                  <p className={`${styles["week-type"]}`}>
+                    {weekType === "week" ? "Hide" : "Show"} <span>weekends </span>
+                  </p>
+                </>
+              )}
             </Col>
 
             <Col className="rbc-btn-group">
