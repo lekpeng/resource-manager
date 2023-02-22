@@ -16,6 +16,10 @@ export const csvToCalendarBookingConverter = (csvBooking: csvBooking): Event => 
   };
 };
 
+export const lowercase = (str: String): String => {
+  return str.toLowerCase();
+};
+
 export const capitaliseFirstLetter = (str: String): String => {
   return str
     .split(" ")

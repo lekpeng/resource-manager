@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { lowercase } from "../utils/converters";
+
 import styles from "./select.module.css";
 
 export type SelectOption = {
@@ -89,7 +91,7 @@ export function Select({ value, onChange, options }: SelectProps) {
               e.stopPropagation();
               selectOption(v);
             }}
-            className={`${styles["option-badge"]} ${styles[v.label]}`}>
+            className={`${styles["option-badge"]} ${styles[`option-${lowercase(v.label)}`]}`}>
             {v.label}
             <span className={styles["remove-btn"]}>&times;</span>
           </button>

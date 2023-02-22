@@ -100,7 +100,7 @@
 
 .option-badge:hover > .remove-btn,
 .option-badge:focus > .remove-btn {
-  color: hsl(0, 100%, 50%);
+  color: white;
 }
 
 .option-badge > .remove-btn {
@@ -108,14 +108,14 @@
   color: #777;
 }
 
-.Discussion {
+.option-discussion {
   background-color: mediumseagreen;
 }
 
-.Conference {
+.option-conference {
   background-color: coral;
 }
 
-.Meeting {
+.option-meeting {
   background-color: cornflowerblue;
 }

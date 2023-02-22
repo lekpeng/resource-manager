@@ -1,0 +1,17 @@
+.navigate-btn {
+  color: red;
+}
+
+.date-label {
+  color: black;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.date-label:hover {
+  color: darkorange;
+}
+
+.week-type {
+  margin: 0 0 0 15px;
+}

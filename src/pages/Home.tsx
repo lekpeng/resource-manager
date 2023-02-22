@@ -1,17 +1,15 @@
 import Filter from "../components/Filter";
 import Switch from "react-switch";
-
+import { capitaliseFirstLetter } from "../utils/converters";
 import { useState } from "react";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import enUS from "date-fns/locale/en-US";
-
-import { Col, Row, Modal } from "react-bootstrap";
 import { Calendar as BigCalendar, dateFnsLocalizer, Event, EventPropGetter, ToolbarProps, View, NavigateAction } from "react-big-calendar";
 import { Calendar, Detail } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-
+import { Col, Row, Modal } from "react-bootstrap";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { capitaliseFirstLetter } from "../utils/converters";
+import styles from "./Home.module.css";
 
 const Home = () => {
   const [filteredBookings, setFilteredBookings] = useState<Event[]>([]);
@@ -28,7 +26,7 @@ const Home = () => {
     else setCalendarView("month");
   };
 
-  const CustomToolbar: React.FC<ToolbarProps> = ({ label, onView, onNavigate }) => {
+  const CustomToolbar = ({ label, onView, onNavigate }: ToolbarProps) => {
     const [showCalendar, setShowCalendar] = useState(false);
 
     const handleClose = () => setShowCalendar(false);
@@ -41,7 +39,12 @@ const Home = () => {
       <Row className="rbc-toolbar">
         <Col className="rbc-btn-group">
           {navigateButtonOptions.map((option) => (
-            <button style={{ margin: 0 }} type="button" onClick={() => onNavigate(option)} className="rbc-btn-group btn btn-default">
+            <button
+              key={option}
+              type="button"
+              onClick={() => onNavigate(option)}
+              className="rbc-btn-group btn btn-default"
+              style={{ margin: 0 }}>
               {capitaliseFirstLetter(option)}
             </button>
           ))}
@@ -49,7 +52,7 @@ const Home = () => {
 
         <Col></Col>
         <Col className="d-flex justify-content-center">
-          <span className="rbc-toolbar-label" style={{ color: "#ff8c00", cursor: "pointer", fontWeight: "bold" }} onClick={handleShow}>
+          <span className={`rbc-toolbar-label ${styles["date-label"]}`} onClick={handleShow}>
             {label}
           </span>
 
@@ -99,21 +102,22 @@ const Home = () => {
             className="react-switch"
             id="material-switch"
           />
-          <p style={{ margin: "0 0 0 15px" }}>
+          <p className={`${styles["week-type"]}`}>
             {weekType === "week" ? "Hide" : "Show"} <span>weekends </span>
           </p>
         </Col>
 
-        <Col className="d-flex rbc-btn-group" style={{ justifyContent: "right" }}>
+        <Col className="rbc-btn-group">
           {viewButtonOptions.map((option) => (
             <button
               type="button"
-              style={{ margin: 0 }}
+              key={option}
+              className="rbc-btn-group btn btn-default"
               onClick={() => {
                 if (option === "week") onView(weekType);
                 else onView(option);
               }}
-              className="rbc-btn-group btn btn-default">
+              style={{ margin: 0 }}>
               {capitaliseFirstLetter(option)}
             </button>
           ))}
@@ -162,12 +166,12 @@ const Home = () => {
     };
   };
   return (
-    <div style={{ marginTop: "1em" }}>
-      <Row style={{ height: "10em" }}>
+    <>
+      <Row className="mt-3" style={{ height: "10em" }}>
         <Col>
           <Filter setFilteredBookings={setFilteredBookings} />
         </Col>
-        <Col className="m-3" md="auto" style={{ display: "flex", justifyContent: "center" }}>
+        <Col className="d-flex justify-content-center m-3" md="auto">
           <h4>Resource Manager </h4>
         </Col>
         <Col className="d-flex justify-content-center align-items-center"></Col>
@@ -179,14 +183,14 @@ const Home = () => {
         eventPropGetter={eventStyleGetter}
         slotGroupPropGetter={slotGroupStyleGetter}
         localizer={localizer}
-        style={{ height: "calc(100vh - 11em)" }}
+        style={{ height: "calc(100vh - 12em)" }}
         components={{
           toolbar: CustomToolbar,
         }}
         onNavigate={handleNavigate}
         onView={handleView}
       />
-    </div>
+    </>
   );
 };
 
