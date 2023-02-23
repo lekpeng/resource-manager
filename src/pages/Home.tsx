@@ -2,9 +2,10 @@ import Filter from "../components/Filter";
 import Switch from "react-switch";
 import { capitaliseFirstLetter } from "../utils/converters";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import enUS from "date-fns/locale/en-US";
-import { Calendar as BigCalendar, dateFnsLocalizer, Event, EventPropGetter, ToolbarProps, View, NavigateAction } from "react-big-calendar";
+import { Calendar as BigCalendar, dateFnsLocalizer, Event, ToolbarProps, View, NavigateAction } from "react-big-calendar";
 import { Calendar, Detail } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Col, Row, Modal } from "react-bootstrap";
@@ -17,6 +18,8 @@ function Home() {
   const [calendarView, setCalendarView] = useState<Detail>("year");
   const [weekType, setWeekType] = useState<View>("work_week");
   const [showSwitch, setShowSwitch] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleNavigate = (date: Date): void => {
     setCalendarValue(date);
@@ -35,7 +38,11 @@ function Home() {
     }
   };
 
-  const slotGroupStyleGetter = () => {
+  const handleSelectEvent = (event: Event) => {
+    navigate(`/${event.resource.uuid}`);
+  };
+
+  const slotGroupPropGetter = () => {
     const style = {
       minHeight: "100px",
     };
@@ -43,7 +50,8 @@ function Home() {
       style,
     };
   };
-  const eventStyleGetter: EventPropGetter<Event> = (event) => {
+
+  const eventPropGetter = (event: Event) => {
     let backgroundColor;
     let textDecoration = "none";
     if (event.resource.status === "CANCELLED") {
@@ -74,6 +82,7 @@ function Home() {
       style,
     };
   };
+
   const CustomToolbar = ({ label, onView, onNavigate }: ToolbarProps) => {
     const [showCalendar, setShowCalendar] = useState(false);
 
@@ -197,8 +206,8 @@ function Home() {
         defaultView="month"
         views={["day", "agenda", "week", "work_week", "month"]}
         events={filteredBookings}
-        eventPropGetter={eventStyleGetter}
-        slotGroupPropGetter={slotGroupStyleGetter}
+        eventPropGetter={eventPropGetter}
+        slotGroupPropGetter={slotGroupPropGetter}
         localizer={localizer}
         style={{ height: "calc(100vh - 12em)" }}
         components={{
@@ -206,6 +215,7 @@ function Home() {
         }}
         onNavigate={handleNavigate}
         onView={handleView}
+        onSelectEvent={handleSelectEvent}
       />
     </>
   );

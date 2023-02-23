@@ -14,6 +14,7 @@ const useBookings = () => {
 
         const json = await csvFilesToJson(FILEPATHS);
         setBookings(json.map(csvToCalendarBookingConverter));
+        console.log("LOADED DATA");
       };
 
       handleLoadData();

@@ -1,5 +1,6 @@
 import { Event } from "react-big-calendar";
 import { csvBooking } from "../Types";
+import { format } from "date-fns";
 
 export const csvToCalendarBookingConverter = (csvBooking: csvBooking): Event => {
   return {
@@ -25,4 +26,18 @@ export const capitaliseFirstLetter = (str: String): String => {
     .split(" ")
     .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
     .join(" ");
+};
+
+export const dateOnly = (date?: Date): String => {
+  if (!date) {
+    return "";
+  }
+  return format(date, "d MMM yyyy");
+};
+
+export const timeOnly = (date?: Date): String => {
+  if (!date) {
+    return "";
+  }
+  return format(date, "h:mm a");
 };

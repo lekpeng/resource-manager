@@ -1,9 +1,9 @@
+import Home from "./pages/Home";
+import BookingDetails from "./pages/BookingDetails";
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { BookingsContext } from "./contexts/BookingsContext";
-import Home from "./pages/Home";
 import { Event } from "react-big-calendar";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
       <BookingsContext.Provider value={{ bookings, setBookings }}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/:uuid" element={<Home />} />
+          <Route path="/:uuid" element={<BookingDetails />} />
         </Routes>
       </BookingsContext.Provider>
     </div>
