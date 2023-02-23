@@ -17,11 +17,17 @@ export const csvToCalendarBookingConverter = (csvBooking: csvBooking): Event => 
   };
 };
 
-export const lowercase = (str: String): String => {
+export const lowercase = (str?: String): String => {
+  if (!str) {
+    return "";
+  }
   return str.toLowerCase();
 };
 
-export const capitaliseFirstLetter = (str: String): String => {
+export const capitaliseFirstLetter = (str?: String): String => {
+  if (!str) {
+    return "";
+  }
   return str
     .split(" ")
     .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())

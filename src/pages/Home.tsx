@@ -10,7 +10,7 @@ import { Calendar, Detail } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Col, Row, Modal } from "react-bootstrap";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import styles from "./Home.module.css";
+import styles from "./home.module.css";
 
 function Home() {
   const [filteredBookings, setFilteredBookings] = useState<Event[]>([]);
@@ -59,14 +59,14 @@ function Home() {
     }
     switch (event.resource.type) {
       case "DISCUSSION ROOM":
-        backgroundColor = "mediumseagreen";
+        backgroundColor = "darkorange";
         break;
       case "MEETING ROOM":
         backgroundColor = "cornflowerblue";
         break;
 
       case "CONFERENCE ROOM":
-        backgroundColor = "coral";
+        backgroundColor = "mediumpurple";
         break;
 
       default:

@@ -93,7 +93,6 @@ export function Select({ value, onChange, options }: SelectProps) {
             }}
             className={`${styles["option-badge"]} ${styles[`option-${lowercase(v.label)}`]}`}>
             {v.label}
-            <span className={styles["remove-btn"]}>&times;</span>
           </button>
         ))}
       </span>

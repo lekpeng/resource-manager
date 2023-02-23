@@ -1,0 +1,11 @@
+.status {
+  margin-left: 5px;
+}
+
+.cancelled {
+  color: tomato;
+}
+
+.confirmed {
+  color: mediumseagreen;
+}

@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Card } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { Event } from "react-big-calendar";
 import useBookings from "../hooks/useBookings";
-import { dateOnly, timeOnly } from "../utils/converters";
+import { capitaliseFirstLetter, lowercase, dateOnly, timeOnly } from "../utils/converters";
+import styles from "./booking-details.module.css";
+import Detail from "../components/Detail";
 
 function BookingDetails() {
   const params = useParams();
@@ -17,22 +19,21 @@ function BookingDetails() {
   }, [params.uuid, bookings]);
 
   const { title, start, end } = bookingDetails || {};
-  const { uuid, user_uuid, code, type, status } = bookingDetails?.resource || {};
+  const { user_uuid, code, type, status } = bookingDetails?.resource || {};
 
   return (
-    <>
-      <Card>
-        <Card.Body>
-          <Card.Title>{title}</Card.Title>
-          <Card.Text>{status}</Card.Text>
-          <Card.Text>Date: {dateOnly(start)}</Card.Text>
-          <Card.Text>Time: {`${timeOnly(start)} - ${timeOnly(end)}`}</Card.Text>
-          <Card.Text>Booking User ID: {user_uuid}</Card.Text>
-          <Card.Text>Type: {type}</Card.Text>
-          <Card.Text>Code: {code}</Card.Text>
-        </Card.Body>
-      </Card>
-    </>
+    <Container fluid style={{ height: "100vh", backgroundColor: "#3F586C" }}>
+      <Container style={{ height: "100vh", paddingLeft: "3em", paddingTop: "3em", maxWidth: "768px", backgroundColor: "white" }}>
+        <h4 className="d-flex justify-content-center mb-5">
+          {`${title}`} <span className={`${styles["status"]} ${styles[`${lowercase(status)}`]}`}>[{status}]</span>
+        </h4>
+        <Detail header="Date" information={dateOnly(start)} />
+        <Detail header="Time" information={`${timeOnly(start)} - ${timeOnly(end)}`} />
+        <Detail header="Booking User ID" information={user_uuid} />
+        <Detail header="Type" information={capitaliseFirstLetter(type)} />
+        <Detail header="Code" information={code} />
+      </Container>
+    </Container>
   );
 }
 

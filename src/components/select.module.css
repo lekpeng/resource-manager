@@ -94,28 +94,25 @@
   cursor: pointer;
   background: none;
   outline: none;
-  background-color: black;
   color: white;
 }
 
-.option-badge:hover > .remove-btn,
-.option-badge:focus > .remove-btn {
-  color: white;
-}
-
-.option-badge > .remove-btn {
-  font-size: 1.25em;
-  color: #777;
-}
-
-.option-discussion {
+.option-confirmed {
   background-color: mediumseagreen;
 }
 
-.option-conference {
-  background-color: coral;
+.option-cancelled {
+  background-color: tomato;
+}
+
+.option-discussion {
+  background-color: darkorange;
 }
 
 .option-meeting {
   background-color: cornflowerblue;
+}
+
+.option-conference {
+  background-color: mediumpurple;
 }
