@@ -95,16 +95,20 @@ function Home() {
     return (
       <Row className="rbc-toolbar">
         <Col className="rbc-btn-group">
-          {navigateButtonOptions.map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => onNavigate(option)}
-              className="rbc-btn-group btn btn-default"
-              style={{ margin: 0 }}>
-              {capitaliseFirstLetter(option)}
-            </button>
-          ))}
+          {navigateButtonOptions.map((option, idx) => {
+            const buttonStyle = idx === 0 ? { margin: 0 } : { margin: 0, borderLeft: "none" };
+
+            return (
+              <button
+                key={option}
+                type="button"
+                onClick={() => onNavigate(option)}
+                className="rbc-btn-group btn btn-default"
+                style={buttonStyle}>
+                {capitaliseFirstLetter(option)}
+              </button>
+            );
+          })}
         </Col>
 
         <Col md="auto" className="d-flex justify-content-center">
@@ -151,8 +155,8 @@ function Home() {
                       }
                     }}
                     checked={weekType === "week"}
-                    onColor="#ffdd86"
-                    onHandleColor="#ff8c00"
+                    onColor="#788692"
+                    onHandleColor="#3f586c"
                     handleDiameter={30}
                     uncheckedIcon={false}
                     checkedIcon={false}
@@ -164,26 +168,30 @@ function Home() {
                     id="material-switch"
                   />
                   <p className={`${styles["week-type"]}`}>
-                    {weekType === "week" ? "Hide" : "Show"} <span>weekends </span>
+                    {weekType === "week" ? "Show" : "Hide"} <span>weekends </span>
                   </p>
                 </>
               )}
             </Col>
 
             <Col className="rbc-btn-group d-flex justify-content-end">
-              {viewButtonOptions.map((option) => (
-                <button
-                  type="button"
-                  key={option}
-                  className="rbc-btn-group btn btn-default"
-                  onClick={() => {
-                    if (option === "week") onView(weekType);
-                    else onView(option);
-                  }}
-                  style={{ margin: 0 }}>
-                  {capitaliseFirstLetter(option)}
-                </button>
-              ))}
+              {viewButtonOptions.map((option, idx) => {
+                const buttonStyle = idx === viewButtonOptions.length - 1 ? { margin: 0 } : { margin: 0, borderRight: "none" };
+
+                return (
+                  <button
+                    type="button"
+                    key={option}
+                    className="rbc-btn-group btn btn-default"
+                    onClick={() => {
+                      if (option === "week") onView(weekType);
+                      else onView(option);
+                    }}
+                    style={buttonStyle}>
+                    {capitaliseFirstLetter(option)}
+                  </button>
+                );
+              })}
             </Col>
           </Row>
         </Col>
@@ -224,12 +232,6 @@ function Home() {
 const locales = {
   "en-US": enUS,
 };
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales,
-});
+const localizer = dateFnsLocalizer({ format, parse, startOfWeek, getDay, locales });
 
 export default Home;
