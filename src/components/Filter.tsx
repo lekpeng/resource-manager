@@ -4,6 +4,8 @@ import { Select, SelectOption } from "./Select";
 import { Event } from "react-big-calendar";
 import useBookings from "../hooks/useBookings";
 
+import styles from "./filter.module.css";
+
 const bookingStatusOptions = [
   { label: "Confirmed", value: "CONFIRMED" },
   { label: "Cancelled", value: "CANCELLED" },
@@ -38,18 +40,14 @@ function Filter({ setFilteredBookings }: FilterProps) {
   return (
     <>
       <Row>
-        <Col className="d-flex align-items-center mx-2" md={1}>
-          <label>Status: </label>
-        </Col>
-        <Col>
+        <Col className="d-flex align-items-center">
+          <label className={styles["filter-label"]}>Status: </label>
           <Select options={bookingStatusOptions} value={statuses} onChange={(o) => setStatuses(o)} />
         </Col>
       </Row>
       <Row className="mt-3">
-        <Col className="d-flex align-items-center mx-2" md={1}>
-          <label>Room: </label>
-        </Col>
-        <Col>
+        <Col className="d-flex align-items-center">
+          <label className={styles["filter-label"]}>Room: </label>
           <Select options={bookingRoomOptions} value={rooms} onChange={(o) => setRooms(o)} />
         </Col>
       </Row>

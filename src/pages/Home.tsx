@@ -89,7 +89,7 @@ function Home() {
     const handleClose = () => setShowCalendar(false);
     const handleShow = () => setShowCalendar(true);
 
-    const navigateButtonOptions: NavigateAction[] = ["PREV", "TODAY", "NEXT"];
+    const navigateButtonOptions: NavigateAction[] = ["TODAY", "PREV", "NEXT"];
     const viewButtonOptions: View[] = ["month", "week", "day", "agenda"];
 
     return (
@@ -200,13 +200,13 @@ function Home() {
   };
 
   return (
-    <Container>
-      <Row className="mt-3" style={{ minHeight: "10em" }}>
-        <Col>
+    <Container className="d-flex flex-column justify-content-center">
+      <Row className="mt-1" style={{ alignSelf: "center", width: "100%", minHeight: "10em" }}>
+        <Col className="d-flex flex-column justify-content-center ps-0">
           <Filter setFilteredBookings={setFilteredBookings} />
         </Col>
-        <Col className="d-flex justify-content-center m-3" md="auto">
-          <h4>Resource Manager </h4>
+        <Col className="d-flex justify-content-center align-items-center" md="auto">
+          <h4 className={styles["title"]}>RESOURCE MANAGER </h4>
         </Col>
         <Col className="d-flex justify-content-center align-items-center"></Col>
       </Row>
