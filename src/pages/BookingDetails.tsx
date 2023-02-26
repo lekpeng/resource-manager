@@ -22,8 +22,8 @@ function BookingDetails() {
   const { user_uuid, code, type, status } = bookingDetails?.resource || {};
 
   return (
-    <Container fluid style={{ height: "100vh", backgroundColor: "#3F586C" }}>
-      <Container style={{ height: "100vh", paddingLeft: "3em", paddingTop: "3em", maxWidth: "768px", backgroundColor: "white" }}>
+    <Container fluid style={{ backgroundColor: "#3F586C" }}>
+      <Container className="p-3" style={{ height: "100vh", maxWidth: "576px", backgroundColor: "white" }}>
         <h4 className="d-flex justify-content-center mb-5">
           {`${title}`} <span className={`${styles["status"]} ${styles[`${lowercase(status)}`]}`}>[{status}]</span>
         </h4>

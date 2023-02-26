@@ -8,7 +8,7 @@ import enUS from "date-fns/locale/en-US";
 import { Calendar as BigCalendar, dateFnsLocalizer, Event, ToolbarProps, View, NavigateAction } from "react-big-calendar";
 import { Calendar, Detail } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { Col, Row, Modal } from "react-bootstrap";
+import { Col, Row, Modal, Container } from "react-bootstrap";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import styles from "./home.module.css";
 
@@ -89,11 +89,11 @@ function Home() {
     const handleClose = () => setShowCalendar(false);
     const handleShow = () => setShowCalendar(true);
 
-    const navigateButtonOptions: NavigateAction[] = ["TODAY", "PREV", "NEXT"];
+    const navigateButtonOptions: NavigateAction[] = ["PREV", "TODAY", "NEXT"];
     const viewButtonOptions: View[] = ["month", "week", "day", "agenda"];
 
     return (
-      <Row className="rbc-toolbar">
+      <Row className="rbc-toolbar d-flex flex-wrap">
         <Col className="rbc-btn-group">
           {navigateButtonOptions.map((option) => (
             <button
@@ -192,7 +192,7 @@ function Home() {
   };
 
   return (
-    <>
+    <Container>
       <Row className="mt-3" style={{ height: "10em" }}>
         <Col>
           <Filter setFilteredBookings={setFilteredBookings} />
@@ -209,7 +209,7 @@ function Home() {
         eventPropGetter={eventPropGetter}
         slotGroupPropGetter={slotGroupPropGetter}
         localizer={localizer}
-        style={{ height: "calc(100vh - 12em)" }}
+        style={{ minHeight: "calc(100vh - 12em)", width: "100%" }}
         components={{
           toolbar: CustomToolbar,
         }}
@@ -217,7 +217,7 @@ function Home() {
         onView={handleView}
         onSelectEvent={handleSelectEvent}
       />
-    </>
+    </Container>
   );
 }
 
