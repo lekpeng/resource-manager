@@ -10,7 +10,7 @@ import { Calendar, Detail } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Col, Row, Modal, Container } from "react-bootstrap";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import styles from "./home.module.css";
+import styles from "./homee.module.css";
 
 function Home() {
   const [filteredBookings, setFilteredBookings] = useState<Event[]>([]);
