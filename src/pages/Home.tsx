@@ -93,7 +93,7 @@ function Home() {
     const viewButtonOptions: View[] = ["month", "week", "day", "agenda"];
 
     return (
-      <Row className="rbc-toolbar d-flex flex-wrap">
+      <Row className="rbc-toolbar">
         <Col className="rbc-btn-group">
           {navigateButtonOptions.map((option) => (
             <button
@@ -170,7 +170,7 @@ function Home() {
               )}
             </Col>
 
-            <Col className="rbc-btn-group">
+            <Col className="rbc-btn-group d-flex justify-content-end">
               {viewButtonOptions.map((option) => (
                 <button
                   type="button"
@@ -193,7 +193,7 @@ function Home() {
 
   return (
     <Container>
-      <Row className="mt-3" style={{ height: "10em" }}>
+      <Row className="mt-3" style={{ minHeight: "10em" }}>
         <Col>
           <Filter setFilteredBookings={setFilteredBookings} />
         </Col>
