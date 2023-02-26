@@ -1,6 +1,5 @@
 import Home from "./pages/Home";
 import BookingDetails from "./pages/BookingDetails";
-import Basic from "./pages/Basic";
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { BookingsContext } from "./contexts/BookingsContext";
@@ -17,7 +16,6 @@ function App() {
         <Container fluid className="w-100 p-0">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/basic" element={<Basic />} />
             <Route path="/:uuid" element={<BookingDetails />} />
           </Routes>
         </Container>
