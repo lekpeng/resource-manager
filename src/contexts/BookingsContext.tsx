@@ -6,4 +6,7 @@ export interface IBookingsContext {
   setBookings: (bookings: Event[]) => void;
 }
 
-export const BookingsContext = createContext<IBookingsContext>({ bookings: [], setBookings: () => {} });
+export const BookingsContext = createContext<IBookingsContext>({
+  bookings: [],
+  setBookings: () => {},
+});

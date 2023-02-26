@@ -1,6 +1,6 @@
 .container {
   position: relative;
-  width: 22em;
+  width: 21em;
   min-height: 1.5em;
   border: 0.05em solid #777;
   display: flex;
@@ -115,4 +115,12 @@
 
 .option-conference {
   background-color: mediumpurple;
+}
+
+.option-itcd {
+  background-color: palevioletred;
+}
+
+.option-colab {
+  background-color: darkturquoise;
 }

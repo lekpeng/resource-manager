@@ -5,7 +5,7 @@ import styles from "./select.module.css";
 
 export type SelectOption = {
   label: string;
-  value: string | number;
+  value: string;
 };
 
 type MultipleSelectProps = {

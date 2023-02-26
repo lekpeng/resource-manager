@@ -1,4 +1,4 @@
-import Filter from "../components/Filter";
+import Filters from "../components/Filters";
 import Switch from "react-switch";
 import { capitaliseFirstLetter } from "../utils/converters";
 import { useState } from "react";
@@ -203,7 +203,7 @@ function Home() {
     <Container className="d-flex flex-column justify-content-center">
       <Row className="mt-1" style={{ alignSelf: "center", width: "100%", minHeight: "10em" }}>
         <Col className="d-flex flex-column justify-content-center ps-0">
-          <Filter setFilteredBookings={setFilteredBookings} />
+          <Filters setFilteredBookings={setFilteredBookings} />
         </Col>
         <Col className="d-flex justify-content-center align-items-center" md="auto">
           <h4 className={styles["title"]}>RESOURCE MANAGER </h4>

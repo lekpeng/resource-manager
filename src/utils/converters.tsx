@@ -1,6 +1,7 @@
 import { Event } from "react-big-calendar";
 import { csvBooking } from "../Types";
 import { format } from "date-fns";
+import { SelectOption } from "../components/Select";
 
 export const csvToCalendarBookingConverter = (csvBooking: csvBooking): Event => {
   return {
@@ -46,4 +47,8 @@ export const timeOnly = (date?: Date): String => {
     return "";
   }
   return format(date, "h:mm a");
+};
+
+export const optionsToValues = (options: SelectOption[]): string[] => {
+  return options.map((option) => option.value);
 };
